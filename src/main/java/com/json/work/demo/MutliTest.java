@@ -19,6 +19,9 @@ import com.json.work.sync.Listener;
 import com.json.work.sync.SyncListener;
 
 public class MutliTest {
+	
+	public static final ThreadLocal<Long> TIME = new ThreadLocal<>();
+
 	public static ExecutorService exec = new ThreadPoolExecutor(10, 100, 6000, TimeUnit.MILLISECONDS,
 			new ArrayBlockingQueue<Runnable>(5000), new RejectedExecutionHandler() {
 				// 队列满了 直接抛拒绝异常
@@ -30,6 +33,7 @@ public class MutliTest {
 	public static void main(String[] args) throws Exception {
 		testA();
 	}
+	
 
 	public static void testA() throws Exception {
 		Map<String, String> config = new HashMap<String, String>();
@@ -39,6 +43,7 @@ public class MutliTest {
 		OperationHandlerFactory pohFactory = OperationHandlerFactory.create(config, null);
 		WriteData data = new WriteData();
 		List<Future<Integer>> futureList = new ArrayList<Future<Integer>>();
+		System.out.println("start time: " + System.currentTimeMillis());
 		for (int count = 0; count <= threadCount; count++) {
 			Callable<Integer> callable = new Callable<Integer>() {
 				@Override
@@ -46,11 +51,11 @@ public class MutliTest {
 					for (int i = 0; i <= loopCout; i++) {
 						AddOperation<Integer> operation = new AddOperation<Integer>(data);
 						OperationHandler handler = pohFactory.getOperationHandler();
-						Listener<Integer> listener = new SyncListener<Integer>();
-						operation.setResultHandler(listener);
+						//Listener<Integer> listener = new SyncListener<Integer>();
+						//operation.setResultHandler(listener);
 						handler.handleOperation(operation);
-						listener.await();
-						operation.getResult();
+					  //	listener.await();
+						//operation.getResult();
 					}
 					return data.getNum();
 				}
@@ -68,12 +73,12 @@ public class MutliTest {
 						DecrOperation<Integer> operation = new DecrOperation<Integer>(data);
 						// 业务线程
 						OperationHandler handler = pohFactory.getOperationHandler();
-						//业务线程同步获取结果
-						Listener<Integer> listener = new SyncListener<Integer>();
-						operation.setResultHandler(listener);
+//						//业务线程同步获取结果
+//						Listener<Integer> listener = new SyncListener<Integer>();
+//						operation.setResultHandler(listener);
 						handler.handleOperation(operation);
-						listener.await();
-						operation.getResult();
+					   //  listener.await();
+						//operation.getResult();
 					}
 					return data.getNum();
 				}
@@ -82,8 +87,10 @@ public class MutliTest {
 			futureList.add(futere);
 		}
 		for (Future<Integer> futere : futureList) {
-			System.out.println(futere.get());
+			//System.out.println(futere.get());
+			futere.get();
 		}
+		Thread.currentThread().sleep(1000);
 		System.out.println("finish data size: " + data.getNum());
 	}
 

@@ -13,7 +13,7 @@ public abstract class DataReference {
 	protected volatile OperationHandler lockOwner;
 
 	public boolean tryLock(OperationHandler newLockOwner) {
-		// 当前线程锁重入
+		// 当前线程重入
 		if (newLockOwner == lockOwner)
 			return true;
 		while (true) {

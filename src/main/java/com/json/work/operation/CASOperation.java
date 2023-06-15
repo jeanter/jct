@@ -29,6 +29,7 @@ public abstract class CASOperation<R> implements Operation {
 		}
 	};
 
+
 	protected abstract Object doRun(OperationHandler currentHandler);
 
 	public abstract DataReference getOpData();
