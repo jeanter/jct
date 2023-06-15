@@ -13,7 +13,7 @@ public class AddOperation<R> extends CASOperation<R> {
 	}
 
 	@Override
-	public Integer doRun(OperationHandler currentHandler) {
+	public Integer doRun() {
 		data.incr();
 		return data.getNum();
 	}

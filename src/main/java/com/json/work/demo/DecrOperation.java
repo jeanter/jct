@@ -2,7 +2,7 @@ package com.json.work.demo;
 
 import com.json.work.operation.CASOperation;
 import com.json.work.operation.DataReference;
-import com.json.work.operation.OperationHandler;
+
 
 public class DecrOperation<R> extends CASOperation<R> {
 
@@ -13,7 +13,7 @@ public class DecrOperation<R> extends CASOperation<R> {
 	}
 
 	@Override
-	public Integer doRun(OperationHandler currentHandler) {
+	public Integer doRun() {
 		data.decr();
 		return data.getNum();
 	}

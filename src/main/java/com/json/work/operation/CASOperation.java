@@ -17,7 +17,7 @@ public abstract class CASOperation<R> implements Operation {
 		// cas对目标数据进行加锁
 		if (dataReference.tryLock(currentHandler)) {
 			// 对目标数据进行操作
-			result = (R) doRun(currentHandler);
+			result = (R) doRun();
 			// 快速释放锁，不用等处理结果 不需要cas操作
 			dataReference.unlock();
 			if (resultHandler != null) {
@@ -30,7 +30,7 @@ public abstract class CASOperation<R> implements Operation {
 	};
 
 
-	protected abstract Object doRun(OperationHandler currentHandler);
+	protected abstract Object doRun();
 
 	public abstract DataReference getOpData();
 
