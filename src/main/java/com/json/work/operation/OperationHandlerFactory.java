@@ -121,8 +121,10 @@ public abstract class OperationHandlerFactory {
 			int index = 0;
 			for (int i = 0, size = operationHandlers.length; i < size; i++) {
 				long load = operationHandlers[i].getLoad();
-				if (load < minLoad)
+				if (load < minLoad) {
 					index = i;
+				}
+					
 			}
 			return operationHandlers[index];
 		}
