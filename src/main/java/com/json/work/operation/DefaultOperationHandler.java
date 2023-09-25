@@ -80,7 +80,7 @@ public class DefaultOperationHandler extends Thread implements OperationHandler 
 		}
 	}
 
-	protected void runPageOperationTasks() {
+	protected void runOperationTasks() {
 		if (size.get() <= 0) {
 			long finishedTime = System.currentTimeMillis();
 			System.out.println("runPageOperationTasks finish time =   " + (finishedTime));
@@ -131,7 +131,7 @@ public class DefaultOperationHandler extends Thread implements OperationHandler 
 	@Override
 	public void run() {
 		while (!stopped) {
-			runPageOperationTasks();
+			runOperationTasks();
 			doAwait();
 		}
 	}
@@ -148,4 +148,31 @@ public class DefaultOperationHandler extends Thread implements OperationHandler 
 		}
 	}
 
+   class DummyOperationHandler implements OperationHandler {
+        @Override
+        public int getHandlerId() {
+            return -1;
+        }
+
+        @Override
+        public long getLoad() {
+            return 0;
+        }
+
+        @Override
+        public void handleOperation(Operation po) {
+        }
+
+        @Override
+        public void addWaitingHandler(OperationHandler handler) {
+        }
+
+        @Override
+        public void wakeUpWaitingHandlers() {
+        }
+
+        @Override
+        public void wakeUp() {
+        }
+    }
 }

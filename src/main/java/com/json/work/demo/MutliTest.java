@@ -23,11 +23,8 @@ public class MutliTest {
 	public static final ThreadLocal<Long> TIME = new ThreadLocal<>();
 
 	public static ExecutorService exec = new ThreadPoolExecutor(10, 100, 6000, TimeUnit.MILLISECONDS,
-			new ArrayBlockingQueue<Runnable>(5000), new RejectedExecutionHandler() {
-				// 队列满了 直接抛拒绝异常
-				public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-					throw new RejectedExecutionException("queue is full!");
-				}
+			new ArrayBlockingQueue<Runnable>(5000),(Runnable r, ThreadPoolExecutor executor) ->{
+				throw new RejectedExecutionException("queue is full!");
 			});
 
 	public static void main(String[] args) throws Exception {
@@ -71,7 +68,7 @@ public class MutliTest {
 					for (int i = 0; i <= loopCout; i++) {
 						// 业务任务包装
 						DecrOperation<Integer> operation = new DecrOperation<Integer>(data);
-						// 业务线程
+				        //获取工作线程
 						OperationHandler handler = pohFactory.getOperationHandler();
 //						//业务线程同步获取结果
 //						Listener<Integer> listener = new SyncListener<Integer>();

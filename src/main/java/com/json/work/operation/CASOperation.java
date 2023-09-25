@@ -34,7 +34,7 @@ public abstract class CASOperation<R> implements Operation {
 
 	public abstract DataReference getOpData();
 
-	// 可以延后设置
+	// 延后设置
 	public void setResultHandler(Listener<R> listen) {
 		this.resultHandler = listen;
 	}
