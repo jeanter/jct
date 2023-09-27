@@ -13,10 +13,10 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import com.json.work.async.Listener;
+import com.json.work.async.SyncListener;
 import com.json.work.operation.OperationHandler;
 import com.json.work.operation.OperationHandlerFactory;
-import com.json.work.sync.Listener;
-import com.json.work.sync.SyncListener;
 
 public class MutliTest {
 	
@@ -48,6 +48,7 @@ public class MutliTest {
 					for (int i = 0; i <= loopCout; i++) {
 						AddOperation<Integer> operation = new AddOperation<Integer>(data);
 						OperationHandler handler = pohFactory.getOperationHandler();
+						//业务线程同步获取结果 也可设置异步回调 业务线程直接返回
 						//Listener<Integer> listener = new SyncListener<Integer>();
 						//operation.setResultHandler(listener);
 						handler.handleOperation(operation);
@@ -70,7 +71,7 @@ public class MutliTest {
 						DecrOperation<Integer> operation = new DecrOperation<Integer>(data);
 				        //获取工作线程
 						OperationHandler handler = pohFactory.getOperationHandler();
-//						//业务线程同步获取结果
+//						//业务线程同步获取结果 也可设置异步回调 业务线程直接返回
 //						Listener<Integer> listener = new SyncListener<Integer>();
 //						operation.setResultHandler(listener);
 						handler.handleOperation(operation);

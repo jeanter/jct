@@ -1,14 +1,9 @@
-package com.json.work.sync;
+package com.json.work.async;
 
 import java.util.concurrent.CountDownLatch;
 
-/**
- * 同步listen 让业务线程同步获取操作结果
- * 
- * @author diannao
- *
- * @param <V>
- */
+
+
 public class SyncListener<V> implements Listener<V> {
 
 	private final CountDownLatch latch = new CountDownLatch(1);
@@ -27,14 +22,15 @@ public class SyncListener<V> implements Listener<V> {
 		return result;
 	}
 
-	@Override
-	public void handle(Result<V> ar) {
+	  public void handle(AsyncResult<V> ar) {
+          if (ar.isSucceeded())
+              result = ar.getResult();
+          else
+              e = new RuntimeException(ar.getCause());
+          latch.countDown();
+      }
 
-		if (ar.isSucceeded()) {
-			result = ar.getResult();
-		} else {
-			e = new RuntimeException(ar.getCause());
-		}
-		latch.countDown();
-	}
+	 
+
+
 }
