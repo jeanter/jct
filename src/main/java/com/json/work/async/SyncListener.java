@@ -11,6 +11,7 @@ public class SyncListener<V> implements Listener<V> {
 	private volatile V result;
 
 	@Override
+	//sync wait for result
 	public V await() {
 		try {
 			latch.await();
